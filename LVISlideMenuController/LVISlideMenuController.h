@@ -9,29 +9,6 @@
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
 
-//@class LVISlideContentController;
-//
-//@protocol LVISlideContentController
-//
-//- (UIViewController *)mainViewControllerForSlideViewController:(LVISlideContentController *)slideViewController;
-//- (UIViewController *)leftViewControllerForSlideViewController:(LVISlideContentController *)slideViewController;
-//- (UIViewController *)rightViewControllerForSlideViewController:(LVISlideContentController *)slideViewController;
-//
-//@optional
-//
-//- (void)LVISlideViewController:(LVISlideContentController *)viewController willShowMainView:(BOOL)animated;
-//- (void)LVISlideViewController:(LVISlideContentController *)viewController didShowMainView:(BOOL)animated;
-//
-//- (void)canShowLeftViewForLVISlideViewController:(LVISlideContentController *)viewController;
-//- (void)LVISlideViewController:(LVISlideContentController *)viewController willShowLeftView:(BOOL)animated;
-//- (void)LVISlideViewController:(LVISlideContentController *)viewController didShowLeftView:(BOOL)animated;
-//
-//- (void)canShowRightViewForLVISlideViewController:(LVISlideContentController *)viewController;
-//- (void)LVISlideViewController:(LVISlideContentController *)viewController willShowRightView:(BOOL)animated;
-//- (void)LVISlideViewController:(LVISlideContentController *)viewController didShowRightView:(BOOL)animated;
-//
-//@end
-
 @interface LVISlideMenuController : UIViewController
 
 @property (nonatomic, assign) CGFloat sideViewSize;

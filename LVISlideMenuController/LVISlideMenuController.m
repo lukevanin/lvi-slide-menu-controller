@@ -17,6 +17,30 @@ typedef enum {
     rightViewState
 } ViewStateEnum;
 
+
+@interface UIResponder (FirstResponder)
+
++ (id)currentFirstResponder;
+- (void)findFirstResponder:(id)sender;
+
+@end
+
+static __weak id currentFirstResponder;
+
+@implementation UIResponder (FirstResponder)
+
++ (id)currentFirstResponder {
+    currentFirstResponder = nil;
+    [[UIApplication sharedApplication] sendAction:@selector(findFirstResponder:) to:nil from:nil forEvent:nil];
+    return currentFirstResponder;
+}
+
+- (void)findFirstResponder:(id)sender {
+    currentFirstResponder = self;
+}
+
+@end
+
 @interface LVISlideMenuController ()
 
 @property (nonatomic, assign, readonly) ViewStateEnum viewState;
@@ -182,6 +206,7 @@ typedef enum {
 
 - (void)beginMainViewPan:(CGPoint)offset
 {
+    [[UIResponder currentFirstResponder] resignFirstResponder];
     self.panOffset = offset;
     [self updateMainViewPan:CGPointMake(0, 0)];
 }
@@ -253,6 +278,7 @@ typedef enum {
 
 - (void)setViewState:(ViewStateEnum)viewState animated:(BOOL)animated
 {
+    [[UIResponder currentFirstResponder] resignFirstResponder];
     _viewState = viewState;
     [self updateViewStateAnimated:animated];
 }
@@ -321,8 +347,8 @@ typedef enum {
 
 - (void)hideSideViews
 {
-    //    [self.leftView removeFromSuperview];
-    //    [self.rightView removeFromSuperview];
+    [self.leftView removeFromSuperview];
+    [self.rightView removeFromSuperview];
 }
 
 - (void)moveMainView:(CGFloat)position animated:(BOOL)animated completion:(void (^)(void))completion
