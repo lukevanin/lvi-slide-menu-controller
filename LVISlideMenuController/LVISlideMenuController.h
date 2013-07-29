@@ -14,9 +14,9 @@
 @property (nonatomic, assign) CGFloat sideViewSize;
 @property (nonatomic, assign) CGFloat snapThreshold;
 
-@property (nonatomic, strong, readonly) UIView * mainView;
-@property (nonatomic, strong, readonly) UIView * leftView;
-@property (nonatomic, strong, readonly) UIView * rightView;
+@property (nonatomic, strong) UIView * mainView;
+@property (nonatomic, strong) UIView * leftView;
+@property (nonatomic, strong) UIView * rightView;
 
 @property (nonatomic, strong) UIViewController * leftViewController;
 @property (nonatomic, strong) UIViewController * rightViewController;

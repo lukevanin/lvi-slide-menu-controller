@@ -133,6 +133,7 @@ static __weak id currentFirstResponder;
     
     [self.view addSubview:self.mainView];
     [self updateLayout];
+    [self updateViewStateAnimated:NO];
     
     UIPanGestureRecognizer * panGesture = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(mainViewPanned:)];
     [self.mainView addGestureRecognizer:panGesture];
@@ -142,6 +143,7 @@ static __weak id currentFirstResponder;
 {
     [super viewWillAppear:animated];
     [self updateLayout];
+    [self updateViewStateAnimated:NO];
 }
 
 - (void)willAnimateRotationToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
@@ -176,7 +178,7 @@ static __weak id currentFirstResponder;
     self.rightView.frame = rightViewFrame;
     self.rightViewController.view.frame = CGRectMake(0, 0, rightViewFrame.size.width, rightViewFrame.size.height);
     
-    [self updateViewStateAnimated:NO];
+//    [self updateViewStateAnimated:NO];
 }
 
 - (void)leftMenuButtonTapped
@@ -213,8 +215,6 @@ static __weak id currentFirstResponder;
 
 - (void)updateMainViewPan:(CGPoint)offset
 {
-    // FIXME: limit panning to content size
-
     CGFloat x = self.panOffset.x + offset.x;
     
     if (!self.leftViewController) {
@@ -232,15 +232,24 @@ static __weak id currentFirstResponder;
     frame.origin.x = x;
     self.mainView.frame = frame;
     
-    if (self.viewState != centerViewState) {
-        return;
-    }
+//    if (self.viewState != centerViewState) {
+//        return;
+//    }
     
-    if (offset.x < 0) {
+//    if (offset.x < 0) {
+//        [self showRightView];
+//    }
+//    else if (offset.x > 0) {
+//        [self showLeftView];
+//    }
+    if (x < 0) {
         [self showRightView];
     }
-    else if (offset.x > 0) {
+    else if (x > 0) {
         [self showLeftView];
+    }
+    else {
+        [self hideSideViews];
     }
 }
 
