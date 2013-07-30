@@ -178,6 +178,7 @@ static __weak id currentFirstResponder;
     self.rightView.frame = rightViewFrame;
     self.rightViewController.view.frame = CGRectMake(0, 0, rightViewFrame.size.width, rightViewFrame.size.height);
     
+    self.mainButton.frame = self.view.bounds;
 //    [self updateViewStateAnimated:NO];
 }
 
@@ -232,16 +233,6 @@ static __weak id currentFirstResponder;
     frame.origin.x = x;
     self.mainView.frame = frame;
     
-//    if (self.viewState != centerViewState) {
-//        return;
-//    }
-    
-//    if (offset.x < 0) {
-//        [self showRightView];
-//    }
-//    else if (offset.x > 0) {
-//        [self showLeftView];
-//    }
     if (x < 0) {
         [self showRightView];
     }
@@ -468,6 +459,7 @@ static __weak id currentFirstResponder;
 - (void)showMainButton
 {
     [self.mainView addSubview:self.mainButton];
+    self.mainButton.frame = self.view.bounds;
     [self.mainView bringSubviewToFront:self.mainButton];
 }
 
@@ -485,6 +477,7 @@ static __weak id currentFirstResponder;
     _mainButton = [UIButton buttonWithType:UIButtonTypeCustom];
     _mainButton.frame = CGRectMake(0, 0, 320, 568);
     _mainButton.backgroundColor = [UIColor clearColor];
+//    _mainButton.backgroundColor = [UIColor magentaColor];
     _mainButton.opaque = NO;
     _mainButton.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
     [_mainButton addTarget:self action:@selector(selectMainView) forControlEvents:UIControlEventTouchUpInside];
