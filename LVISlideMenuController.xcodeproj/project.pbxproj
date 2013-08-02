@@ -10,6 +10,8 @@
 		A3183BB6179F236A00396C0C /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A3183BB5179F236A00396C0C /* Foundation.framework */; };
 		A3183BC9179F2AD600396C0C /* LVISlideMenuController.m in Sources */ = {isa = PBXBuildFile; fileRef = A3183BC7179F2AD600396C0C /* LVISlideMenuController.m */; };
 		A38133D9179FB73F00EE4723 /* LVISlideMenuController.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = A3183BC8179F2AD600396C0C /* LVISlideMenuController.h */; };
+		A384BC8D17ABD32600B1EEB7 /* SAHLProperty.m in Sources */ = {isa = PBXBuildFile; fileRef = A384BC8C17ABD32600B1EEB7 /* SAHLProperty.m */; };
+		A384BC9017ABD32700B1EEB7 /* SAHLPropertyCriteria.m in Sources */ = {isa = PBXBuildFile; fileRef = A384BC8F17ABD32600B1EEB7 /* SAHLPropertyCriteria.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -31,6 +33,10 @@
 		A3183BB9179F236A00396C0C /* LVISlideMenuController-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "LVISlideMenuController-Prefix.pch"; sourceTree = "<group>"; };
 		A3183BC7179F2AD600396C0C /* LVISlideMenuController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LVISlideMenuController.m; sourceTree = "<group>"; };
 		A3183BC8179F2AD600396C0C /* LVISlideMenuController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LVISlideMenuController.h; sourceTree = "<group>"; };
+		A384BC8B17ABD32600B1EEB7 /* SAHLProperty.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SAHLProperty.h; path = ../4iMobile/SAHomeLoans/SAHomeLoans/SAHLProperty.h; sourceTree = "<group>"; };
+		A384BC8C17ABD32600B1EEB7 /* SAHLProperty.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SAHLProperty.m; path = ../4iMobile/SAHomeLoans/SAHomeLoans/SAHLProperty.m; sourceTree = "<group>"; };
+		A384BC8E17ABD32600B1EEB7 /* SAHLPropertyCriteria.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SAHLPropertyCriteria.h; path = ../4iMobile/SAHomeLoans/SAHomeLoans/SAHLPropertyCriteria.h; sourceTree = "<group>"; };
+		A384BC8F17ABD32600B1EEB7 /* SAHLPropertyCriteria.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SAHLPropertyCriteria.m; path = ../4iMobile/SAHomeLoans/SAHomeLoans/SAHLPropertyCriteria.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -48,6 +54,10 @@
 		A3183BA9179F236A00396C0C = {
 			isa = PBXGroup;
 			children = (
+				A384BC8E17ABD32600B1EEB7 /* SAHLPropertyCriteria.h */,
+				A384BC8F17ABD32600B1EEB7 /* SAHLPropertyCriteria.m */,
+				A384BC8B17ABD32600B1EEB7 /* SAHLProperty.h */,
+				A384BC8C17ABD32600B1EEB7 /* SAHLProperty.m */,
 				A3183BB8179F236A00396C0C /* Supporting Files */,
 				A3183BB7179F236A00396C0C /* LVISlideMenuController */,
 				A3183BB4179F236A00396C0C /* Frameworks */,
@@ -74,8 +84,8 @@
 		A3183BB7179F236A00396C0C /* LVISlideMenuController */ = {
 			isa = PBXGroup;
 			children = (
-				A3183BC7179F2AD600396C0C /* LVISlideMenuController.m */,
 				A3183BC8179F2AD600396C0C /* LVISlideMenuController.h */,
+				A3183BC7179F2AD600396C0C /* LVISlideMenuController.m */,
 			);
 			path = LVISlideMenuController;
 			sourceTree = "<group>";
@@ -141,6 +151,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				A3183BC9179F2AD600396C0C /* LVISlideMenuController.m in Sources */,
+				A384BC8D17ABD32600B1EEB7 /* SAHLProperty.m in Sources */,
+				A384BC9017ABD32700B1EEB7 /* SAHLPropertyCriteria.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

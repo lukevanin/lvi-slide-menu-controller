@@ -163,10 +163,7 @@ static __weak id currentFirstResponder;
 
 - (void)updateLayout
 {
-    CGRect mainViewFrame = self.mainView.frame;
-    mainViewFrame.size = self.view.bounds.size;
-    self.mainView.frame = mainViewFrame;
-    self.mainViewController.view.frame = CGRectMake(0, 0, mainViewFrame.size.width, mainViewFrame.size.height);
+    [self layoutMainView];
     
     CGRect leftViewFrame = self.leftView.frame;
     leftViewFrame = CGRectMake(0, 0, defaultSideViewSize, self.view.bounds.size.height);
@@ -180,6 +177,14 @@ static __weak id currentFirstResponder;
     
     self.mainButton.frame = self.view.bounds;
 //    [self updateViewStateAnimated:NO];
+}
+
+- (void)layoutMainView
+{
+    CGRect mainViewFrame = self.mainView.frame;
+    mainViewFrame.size = self.view.bounds.size;
+    self.mainView.frame = mainViewFrame;
+    self.mainViewController.view.frame = CGRectMake(0, 0, mainViewFrame.size.width, mainViewFrame.size.height);
 }
 
 - (void)leftMenuButtonTapped
@@ -388,19 +393,23 @@ static __weak id currentFirstResponder;
         return;
     }
     
+    UIView * existingView = _mainViewController.view;
+    
     if (_mainViewController) {
         [_mainViewController removeFromParentViewController];
-        [_mainViewController.view removeFromSuperview];
     }
     
     _mainViewController = mainViewController;
     
+    UIView * newView = _mainViewController.view;
+    
     if (_mainViewController) {
         [self addChildViewController:_mainViewController];
-        [self.mainView addSubview:_mainViewController.view];
     }
-    
-    [self updateLayout];
+
+    [existingView removeFromSuperview];
+    [self.mainView addSubview:newView];
+    [self layoutMainView];
     [self updateMainViewButton];
 }
 
