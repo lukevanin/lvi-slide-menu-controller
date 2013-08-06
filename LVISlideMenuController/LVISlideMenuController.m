@@ -504,7 +504,7 @@ static __weak id currentFirstResponder;
         return _mainView;
     }
     
-    _mainView = [[UIView alloc] initWithFrame:self.view.bounds];
+    _mainView = [[UIView alloc] initWithFrame:[UIScreen mainScreen].bounds];
     return _mainView;
 }
 
@@ -514,7 +514,7 @@ static __weak id currentFirstResponder;
         return _leftView;
     }
     
-    _leftView = [[UIView alloc] initWithFrame:self.view.bounds];
+    _leftView = [[UIView alloc] initWithFrame:[UIScreen mainScreen].bounds];
     return _leftView;
 }
 
@@ -524,7 +524,7 @@ static __weak id currentFirstResponder;
         return _rightView;
     }
     
-    _rightView = [[UIView alloc] initWithFrame:self.view.bounds];
+    _rightView = [[UIView alloc] initWithFrame:[UIScreen mainScreen].bounds];
     return _rightView;
 }
 
