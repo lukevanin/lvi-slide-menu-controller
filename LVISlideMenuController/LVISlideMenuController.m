@@ -214,6 +214,7 @@ static __weak id currentFirstResponder;
 
 - (void)beginMainViewPan:(CGPoint)offset
 {
+    [[NSNotificationCenter defaultCenter] postNotificationName:LVISlideMenuControllerDidStartSliding object:self];
     [[UIResponder currentFirstResponder] resignFirstResponder];
     self.panOffset = offset;
     [self updateMainViewPan:CGPointMake(0, 0)];
@@ -251,6 +252,8 @@ static __weak id currentFirstResponder;
 
 - (void)endMainViewPan
 {
+    [[NSNotificationCenter defaultCenter] postNotificationName:LVISlideMenuControllerDidEndSliding object:self];
+
     // FIXME: sliding an open view off the screen should keep the view open (currently slides closed)
     CGRect mainViewFrame = self.mainView.frame;
     CGFloat leftEdge = mainViewFrame.origin.x;
@@ -283,9 +286,11 @@ static __weak id currentFirstResponder;
 
 - (void)setViewState:(ViewStateEnum)viewState animated:(BOOL)animated
 {
+    [[NSNotificationCenter defaultCenter] postNotificationName:LVISlideMenuControllerWillChangeViewState object:self];
     [[UIResponder currentFirstResponder] resignFirstResponder];
     _viewState = viewState;
     [self updateViewStateAnimated:animated];
+    [[NSNotificationCenter defaultCenter] postNotificationName:LVISlideMenuControllerDidChangeViewState object:self];
 }
 
 - (void)updateViewStateAnimated:(BOOL)animated
@@ -363,6 +368,8 @@ static __weak id currentFirstResponder;
     
     CGFloat duration = animated ? 0.25 : 0.0;
     
+    [[NSNotificationCenter defaultCenter] postNotificationName:LVISlideMenuControllerDidStartSliding object:self];
+
     [UIView animateWithDuration:duration
                           delay:0.0
                         options:UIViewAnimationOptionCurveEaseOut
@@ -372,6 +379,7 @@ static __weak id currentFirstResponder;
                      completion:^(BOOL completed) {
                          if (completed && completion) {
                              completion();
+                             [[NSNotificationCenter defaultCenter] postNotificationName:LVISlideMenuControllerDidEndSliding object:self];
                          }
                      }];
 }

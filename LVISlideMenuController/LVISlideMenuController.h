@@ -9,6 +9,11 @@
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
 
+#define LVISlideMenuControllerDidStartSliding @"LVISlideMenuControllerDidStartSliding"
+#define LVISlideMenuControllerDidEndSliding @"LVISlideMenuControllerDidEndSliding"
+#define LVISlideMenuControllerWillChangeViewState @"LVISlideMenuControllerWillChangeViewState"
+#define LVISlideMenuControllerDidChangeViewState @"LVISlideMenuControllerDidChangeViewState"
+
 @interface LVISlideMenuController : UIViewController
 
 @property (nonatomic, assign) CGFloat sideViewSize;
