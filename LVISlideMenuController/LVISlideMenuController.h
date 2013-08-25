@@ -25,8 +25,9 @@
 
 @property (nonatomic, strong) UIViewController * leftViewController;
 @property (nonatomic, strong) UIViewController * rightViewController;
-@property (nonatomic, strong) UIViewController * mainViewController;
 
+@property (nonatomic, strong, readonly) UIViewController * mainViewController;
+- (void)setMainViewController:(UIViewController *)mainViewController animated:(BOOL)animated;
 - (void)showMainViewController:(UIViewController *)mainViewController animated:(BOOL)animated;
 
 - (void)showMainView:(BOOL)animated;

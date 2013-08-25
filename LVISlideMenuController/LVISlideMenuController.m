@@ -6,15 +6,17 @@
 //  Copyright (c) 2013 Luke Van In. All rights reserved.
 //
 
+// FIXME: Optimize - Take screenshot and display static bitmap during dragging and animating.
+
 #import "LVISlideMenuController.h"
 
 #define defaultSideViewSize 260
 #define defaultSnapThreshold 60
 
 typedef enum {
-    centerViewState,
-    leftViewState,
-    rightViewState
+    CenterViewState,
+    LeftViewState,
+    RightViewState
 } ViewStateEnum;
 
 
@@ -58,38 +60,38 @@ static __weak id currentFirstResponder;
 
 - (void)showLeftView:(BOOL)animated
 {
-    [self setViewState:leftViewState animated:animated];
+    [self setViewState:LeftViewState animated:animated];
 }
 
 - (void)showMainView:(BOOL)animated
 {
-    [self setViewState:centerViewState animated:animated];
+    [self setViewState:CenterViewState animated:animated];
 }
 
 - (void)showRightView:(BOOL)animated
 {
-    [self setViewState:rightViewState animated:animated];
+    [self setViewState:RightViewState animated:animated];
 }
 
 - (void)toggleLeftView:(BOOL)animated
 {
-    if (self.viewState == leftViewState) {
-        [self setViewState:centerViewState animated:YES];
+    if (self.viewState == LeftViewState) {
+        [self setViewState:CenterViewState animated:YES];
     }
     else
     {
-        [self setViewState:leftViewState animated:YES];
+        [self setViewState:LeftViewState animated:YES];
     }
 }
 
 - (void)toggleRightView:(BOOL)animated
 {
-    if (self.viewState == rightViewState) {
-        [self setViewState:centerViewState animated:YES];
+    if (self.viewState == RightViewState) {
+        [self setViewState:CenterViewState animated:YES];
     }
     else
     {
-        [self setViewState:rightViewState animated:YES];
+        [self setViewState:RightViewState animated:YES];
     }
 }
 
@@ -98,7 +100,7 @@ static __weak id currentFirstResponder;
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
         // Custom initialization
-        _viewState = centerViewState;
+        _viewState = CenterViewState;
         self.sideViewSize = defaultSideViewSize;
         self.snapThreshold = defaultSnapThreshold;
     }
@@ -132,7 +134,7 @@ static __weak id currentFirstResponder;
     [self.mainView addSubview:self.mainButton];
     
     [self.view addSubview:self.mainView];
-    [self updateLayout];
+    [self updateLayout:NO];
     [self updateViewStateAnimated:NO];
     
     UIPanGestureRecognizer * panGesture = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(mainViewPanned:)];
@@ -142,18 +144,24 @@ static __weak id currentFirstResponder;
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    [self updateLayout];
+    [self updateLayout:NO];
     [self updateViewStateAnimated:NO];
+}
+
+- (void)viewDidAppear:(BOOL)animated
+{
+    [super viewDidAppear:animated];
+    [self updateLayout:YES];
 }
 
 - (void)willAnimateRotationToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
 {
-    [self updateLayout];
+    [self updateLayout:YES];
 }
 
 - (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation
 {
-    [self updateLayout];
+    [self updateLayout:NO];
 }
 
 - (void)didReceiveMemoryWarning
@@ -161,30 +169,39 @@ static __weak id currentFirstResponder;
     [super didReceiveMemoryWarning];
 }
 
-- (void)updateLayout
+- (void)updateLayout:(BOOL)animated
 {
-    [self layoutMainView];
-    
+    [UIView animateWithDuration:animated ? 0.25 : 0 animations:^{
+        [self layoutMainView:self.mainViewController.view];
+        [self layoutLeftView];
+        [self layoutRightView];
+        self.mainButton.frame = self.view.bounds;
+    }];
+}
+
+- (void)layoutLeftView
+{
     CGRect leftViewFrame = self.leftView.frame;
     leftViewFrame = CGRectMake(0, 0, defaultSideViewSize, self.view.bounds.size.height);
     self.leftView.frame = leftViewFrame;
     self.leftViewController.view.frame = CGRectMake(0, 0, leftViewFrame.size.width, leftViewFrame.size.height);
-    
+}
+
+- (void)layoutRightView
+{
     CGRect rightViewFrame = self.rightView.frame;
     rightViewFrame = CGRectMake(self.edgeInset, 0, defaultSideViewSize, self.view.bounds.size.height);
     self.rightView.frame = rightViewFrame;
     self.rightViewController.view.frame = CGRectMake(0, 0, rightViewFrame.size.width, rightViewFrame.size.height);
-    
-    self.mainButton.frame = self.view.bounds;
 //    [self updateViewStateAnimated:NO];
 }
 
-- (void)layoutMainView
+- (void)layoutMainView:(UIView *)targetView
 {
     CGRect mainViewFrame = self.mainView.frame;
     mainViewFrame.size = self.view.bounds.size;
     self.mainView.frame = mainViewFrame;
-    self.mainViewController.view.frame = CGRectMake(0, 0, mainViewFrame.size.width, mainViewFrame.size.height);
+    targetView.frame = CGRectMake(0, 0, mainViewFrame.size.width, mainViewFrame.size.height);
 }
 
 - (void)leftMenuButtonTapped
@@ -264,20 +281,20 @@ static __weak id currentFirstResponder;
     CGFloat leftBoundary = 0;
     CGFloat rightBoundary = viewBounds.size.width;
     
-    ViewStateEnum state = centerViewState;
+    ViewStateEnum state = CenterViewState;
     
     if (leftEdge > leftBoundary) {
         CGFloat leftThreshold = self.snapThreshold;
         
-        if ((self.viewState != leftViewState) && (leftEdge > leftThreshold)) {
-            state = leftViewState;
+        if ((self.viewState != LeftViewState) && (leftEdge > leftThreshold)) {
+            state = LeftViewState;
         }
     }
     else if (rightEdge < rightBoundary) {
         CGFloat rightThreshold = viewBounds.size.width - self.snapThreshold;
         
-        if ((self.viewState != rightViewState) && (rightEdge < rightThreshold)) {
-            state = rightViewState;
+        if ((self.viewState != RightViewState) && (rightEdge < rightThreshold)) {
+            state = RightViewState;
         }
     }
     
@@ -296,15 +313,15 @@ static __weak id currentFirstResponder;
 - (void)updateViewStateAnimated:(BOOL)animated
 {
     switch (self.viewState) {
-        case leftViewState:
+        case LeftViewState:
             [self showLeftViewState:animated];
             break;
             
-        case rightViewState:
+        case RightViewState:
             [self showRightViewState:animated];
             break;
             
-        case centerViewState:
+        case CenterViewState:
             [self showCenterViewState:animated];
             break;
             
@@ -391,11 +408,16 @@ static __weak id currentFirstResponder;
 
 - (void)showMainViewController:(UIViewController *)mainViewController animated:(BOOL)animated
 {
-    self.mainViewController = mainViewController;
-    [self setViewState:centerViewState animated:animated];
+    if (self.viewState == CenterViewState) {
+        [self setMainViewController:mainViewController animated:YES];
+    }
+    else {
+        [self setMainViewController:mainViewController animated:NO];
+        [self setViewState:CenterViewState animated:animated];
+    }
 }
 
-- (void)setMainViewController:(UIViewController *)mainViewController
+- (void)setMainViewController:(UIViewController *)mainViewController animated:(BOOL)animated
 {
     if (mainViewController == _mainViewController) {
         return;
@@ -415,10 +437,25 @@ static __weak id currentFirstResponder;
         [self addChildViewController:_mainViewController];
     }
 
-    [existingView removeFromSuperview];
+
+//    [existingView removeFromSuperview];
     [self.mainView addSubview:newView];
-    [self layoutMainView];
+    [self layoutMainView:newView];
     [self updateMainViewButton];
+
+    if (animated) {
+        [UIView transitionFromView:existingView
+                            toView:newView
+                          duration:0.25
+                           options:UIViewAnimationOptionShowHideTransitionViews | UIViewAnimationOptionTransitionCrossDissolve
+                        completion:^(BOOL completed) {
+                            [existingView removeFromSuperview];
+                        }];
+    }
+    else {
+        [existingView removeFromSuperview];
+    }
+    
 }
 
 - (void)setLeftViewController:(UIViewController *)leftViewController
@@ -439,7 +476,7 @@ static __weak id currentFirstResponder;
         [self.leftView addSubview:leftViewController.view];
     }
     
-    [self updateLayout];
+    [self updateLayout:NO];
 }
 
 - (void)setRightViewController:(UIViewController *)rightViewController
@@ -460,12 +497,12 @@ static __weak id currentFirstResponder;
         [self.rightView addSubview:rightViewController.view];
     }
     
-    [self updateLayout];
+    [self updateLayout:NO];
 }
 
 - (void)updateMainViewButton
 {
-    if (self.viewState == centerViewState) {
+    if (self.viewState == CenterViewState) {
         [self hideMainButton];
     }
     else {
