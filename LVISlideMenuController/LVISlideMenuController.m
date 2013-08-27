@@ -423,22 +423,24 @@ static __weak id currentFirstResponder;
         return;
     }
     
-    UIView * existingView = _mainViewController.view;
+    UIView * existingView = nil;
     
     if (_mainViewController) {
+        NSLog(@"Existing view controller -> %@", _mainViewController);
+        existingView = _mainViewController.view;
         [_mainViewController removeFromParentViewController];
     }
     
     _mainViewController = mainViewController;
     
-    UIView * newView = _mainViewController.view;
+    UIView * newView = nil;
     
     if (_mainViewController) {
+        NSLog(@"New view controller -> %@", _mainViewController);
         [self addChildViewController:_mainViewController];
+        newView = _mainViewController.view;
     }
 
-
-//    [existingView removeFromSuperview];
     [self.mainView addSubview:newView];
     [self layoutMainView:newView];
     [self updateMainViewButton];
@@ -531,7 +533,6 @@ static __weak id currentFirstResponder;
     _mainButton = [UIButton buttonWithType:UIButtonTypeCustom];
     _mainButton.frame = CGRectMake(0, 0, 320, 568);
     _mainButton.backgroundColor = [UIColor clearColor];
-//    _mainButton.backgroundColor = [UIColor magentaColor];
     _mainButton.opaque = NO;
     _mainButton.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
     [_mainButton addTarget:self action:@selector(selectMainView) forControlEvents:UIControlEventTouchUpInside];
