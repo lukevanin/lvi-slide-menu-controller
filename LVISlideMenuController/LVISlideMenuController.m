@@ -181,16 +181,14 @@ static __weak id currentFirstResponder;
 
 - (void)layoutLeftView
 {
-    CGRect leftViewFrame = self.leftView.frame;
-    leftViewFrame = CGRectMake(0, 0, defaultSideViewSize, self.view.bounds.size.height);
+    CGRect leftViewFrame = CGRectMake(0, 0, defaultSideViewSize, self.view.bounds.size.height);
     self.leftView.frame = leftViewFrame;
     self.leftViewController.view.frame = CGRectMake(0, 0, leftViewFrame.size.width, leftViewFrame.size.height);
 }
 
 - (void)layoutRightView
 {
-    CGRect rightViewFrame = self.rightView.frame;
-    rightViewFrame = CGRectMake(self.edgeInset, 0, defaultSideViewSize, self.view.bounds.size.height);
+    CGRect rightViewFrame = CGRectMake(self.edgeInset, 0, defaultSideViewSize, self.view.bounds.size.height);
     self.rightView.frame = rightViewFrame;
     self.rightViewController.view.frame = CGRectMake(0, 0, rightViewFrame.size.width, rightViewFrame.size.height);
 //    [self updateViewStateAnimated:NO];
